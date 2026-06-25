@@ -2,6 +2,8 @@
 
 Monorepo for learning server-controlled, tool-gated chatbot architecture with Angular, Node.js, and the Gemini API.
 
+> **For AI agents:** read [AGENTS.md](./AGENTS.md) at the start of every session for project context, conventions, and milestone status.
+
 ## Structure
 
 | Package | Description |
