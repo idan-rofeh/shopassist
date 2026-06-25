@@ -1,0 +1,12 @@
+/** Standard API envelope for server responses. */
+export interface ApiResponse<T> {
+  data: T;
+}
+
+/** Health check payload returned by GET /health. */
+export interface HealthCheckResponse {
+  status: 'ok';
+  timestamp: string;
+}
+
+export * from './types/chat';

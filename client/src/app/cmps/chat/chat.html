@@ -1,0 +1,38 @@
+<section class="chat" aria-label="Chat">
+  <header class="chat__header">
+    <h1 class="chat__title">ChatBot</h1>
+    <p class="chat__subtitle">UI shell only — backend integration comes in a later milestone.</p>
+  </header>
+
+  <div #messageList class="chat__messages" role="log" aria-live="polite" aria-relevant="additions">
+    @if (messages().length === 0) {
+      <p class="chat__empty">Send a message to try the interface. Messages stay local for now.</p>
+    }
+
+    @for (message of messages(); track message.id) {
+      <article
+        class="chat__message"
+        [class.chat__message--user]="message.role === 'user'"
+        [class.chat__message--assistant]="message.role === 'assistant'"
+      >
+        <span class="chat__message-role">{{ message.role === 'user' ? 'You' : 'Assistant' }}</span>
+        <p class="chat__message-content">{{ message.content }}</p>
+      </article>
+    }
+  </div>
+
+  <form class="chat__composer" (submit)="$event.preventDefault(); sendMessage()">
+    <label class="visually-hidden" for="chat-input">Message</label>
+    <textarea
+      id="chat-input"
+      name="message"
+      class="chat__input"
+      rows="2"
+      placeholder="Type a message…"
+      [ngModel]="draft()"
+      (ngModelChange)="draft.set($event)"
+      (keydown)="onKeydown($event)"
+    ></textarea>
+    <button class="chat__send" type="submit" [disabled]="!draft().trim()">Send</button>
+  </form>
+</section>
