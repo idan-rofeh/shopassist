@@ -5,10 +5,6 @@ export interface ChatMessage {
     id: string;
 };
 
-export interface ChatUIMessage extends ChatMessage {
-
-};
-
 export interface ChatRequest {
     message: ChatMessage;
     history: ChatMessage[];
