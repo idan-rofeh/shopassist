@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express, { type Request, type Response } from 'express';
 import type { ApiResponse, HealthCheckResponse } from '@chatbot/shared';
 import ChatRoutes from './routes/chat.routes';
+import { errorHandler } from './middlewares/error-handler';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(
 );
 app.use(express.json());
 
+//routes
 app.use('/chat', ChatRoutes);
 
 app.get('/health', (_req: Request, res: Response<ApiResponse<HealthCheckResponse>>) => {
@@ -29,6 +31,9 @@ app.get('/health', (_req: Request, res: Response<ApiResponse<HealthCheckResponse
 
   res.status(200).json({ data: payload });
 });
+
+// middlewares
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
