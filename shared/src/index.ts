@@ -12,3 +12,4 @@ export interface HealthCheckResponse {
 export * from './types/chat';
 export * from './types/category';
 export * from './types/product';
+export * from './types/tool-definition';
