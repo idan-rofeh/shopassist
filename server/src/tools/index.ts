@@ -1,11 +1,23 @@
-import { ToolDefinition } from '@chatbot/shared';
+import type { FunctionDeclaration } from '@google/generative-ai';
+
+import type { ToolDefinition } from '@chatbot/shared';
+
 import { searchCategories } from './category.tool';
-import { FunctionDeclaration } from '@google/generative-ai';
+import { searchProducts } from './product.tool';
 
-export const tools: Map<string, ToolDefinition> = new Map([
-    ['searchCategories', searchCategories], 
-]);
+const tools: ToolDefinition[] = [
+    searchCategories,
+    searchProducts,
+];
 
-export const functionDeclarations: FunctionDeclaration[] = [
-    ...tools.values(),
-  ].map((t) => t.declaration);
+const toolHandlers = new Map<string, ToolDefinition['handler']>();
+const toolDeclarations: FunctionDeclaration[] = [];
+
+tools.forEach((tool) => {
+    const name = tool.declaration.name;
+    if (!name) throw new Error('Tool declaration missing name');
+    toolHandlers.set(name, tool.handler);
+    toolDeclarations.push(tool.declaration);
+});
+
+export { toolHandlers, toolDeclarations };

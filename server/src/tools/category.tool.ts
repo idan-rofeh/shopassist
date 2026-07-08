@@ -1,21 +1,35 @@
-import { FunctionDeclaration, FunctionResponse, SchemaType } from "@google/generative-ai";
+import { FunctionDeclaration, SchemaType } from "@google/generative-ai";
 import { CategorySearchFilter, CategoryService } from "../services/category.service";
 import { ToolDefinition } from "@chatbot/shared"
+import { createTool } from "./create-tool";
 
 const DOC = `Search store categories by id or name. Returns id, name, and description.
     Call with no filters to list all categories.
-    response lists categories under categories property`;
-const USAGE = `Use when the user asks what you sell, product types, or departments.`;
-const PRODUCT_USAGE = `You can also use this to answer questions like - do you sell a specific product.
-    In such a case, you may infer the most likely category from the product name and search if we have that category, if it exists - 
-    you can fetch use the products tool and search for it. If it is less obvious, you can ask the user help to identify the category
-    by suggesting some existing plausible candidates returned by this query.
+    Response lists results under the data property`;
+
+const USAGE = `Use when the user asks what you sell, product types, or departments.
+    Also use as the first step before searchProducts when the request is about a product type (not a specific model name).`;
+
+const PRODUCT_USAGE = `Required before searchProducts for type-based queries (e.g. "laptops under $800", "any wireless mice?").
+    Fetch all the categories first, and resolve the best matches. For example - wireless mice, cameras, laptop riser - match the category with name 'Accesories'.
+    MacBooks match logically under the 'laptops' category.
+    You may use the category's description for further analysis.
+    Resolve the category here first, then pass the returned id as categoryId to searchProducts.
+    If the user's wording maps to a product type (laptop, accessory, mouse, keyboard, headset, etc.), search categories — do not pass that word as a product name filter.
+    If exactly one category fits, proceed to searchProducts with its id.
+    If multiple fit, ask the user to choose; suggest candidates from the results.
+    If none fit, say so and ask for clarification or offer to list all categories.
     Never claim specific products are in stock based on this tool alone.`;
+
+const BROAD_QUERIES = `For broad requests ("list all products", "show me everything", "what do you sell"):
+    This tool alone is enough — present categories and ask the user to pick a direction.
+    Do not follow up with searchProducts for every category.`;
 
 const description = [
     DOC,
     USAGE,
     PRODUCT_USAGE,
+    BROAD_QUERIES,
 ].join('\n\n');
 
 const searchCategoriesDeclaration: FunctionDeclaration = {
@@ -32,20 +46,11 @@ const searchCategoriesDeclaration: FunctionDeclaration = {
                 type: SchemaType.STRING,
                 description: 'Partial name match, e.g. "laptop" or "accessories"',
             },
-        }
-    }
-};
-
-function handleSearchCategories(filter: CategorySearchFilter): FunctionResponse {
-    return {
-        name: searchCategoriesDeclaration.name,
-        response: {
-            categories: CategoryService.searchCategories(filter)
         },
-    };
+    },
 };
 
-export const searchCategories: ToolDefinition = {
-    declaration: searchCategoriesDeclaration,
-    handler: handleSearchCategories,
-};
+export const searchCategories: ToolDefinition = createTool(
+    searchCategoriesDeclaration,
+    async (filter: CategorySearchFilter) => CategoryService.searchCategories(filter),
+);

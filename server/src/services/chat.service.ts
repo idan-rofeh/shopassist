@@ -2,7 +2,7 @@ import { ChatSession, FunctionCall, GenerateContentResult, GenerativeModel, Goog
 
 import type { ChatMessage, ChatRequest} from "@chatbot/shared";
 
-import { tools, functionDeclarations } from '../tools/index';
+import { toolHandlers, toolDeclarations } from '../tools/index';
 import { SYSTEM_PROMPT } from "../prompts";
 
 export class ChatService {
@@ -22,7 +22,7 @@ export class ChatService {
         const body = {
             model: this.MODEL_NAME,
             systemInstruction: SYSTEM_PROMPT,
-            tools: [{ functionDeclarations }],
+            tools: [{ functionDeclarations: toolDeclarations }],
         };
     
         return genAI.getGenerativeModel(body);
@@ -54,13 +54,15 @@ export class ChatService {
 
     private static async handleFunctionCalls(result: GenerateContentResult, chat: ChatSession): Promise<GenerateContentResult> {
         while (result.response.functionCalls()?.length) {
-            const functionResponses = result.response.functionCalls()!.map((call: FunctionCall) => {
-                if (tools.has(call.name)) {
-                    return { 
-                        functionResponse: tools.get(call.name)!.handler(call.args)
+            const functionResponses = await Promise.all(
+                result.response.functionCalls()!.map(async (call: FunctionCall) => {
+                    const handler = toolHandlers.get(call.name);
+                    if (!handler) throw new Error(`Unknown tool: ${call.name}`);
+                    return {
+                        functionResponse: await handler(call.args),
                     };
-                } else throw new Error(`Unknown tool: ${call.name}`);
-            });
+                }),
+            );
 
             result = await chat.sendMessage(functionResponses);
         };
