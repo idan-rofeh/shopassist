@@ -1,6 +1,6 @@
-# ChatBot
+# ChatBot / Order Desk
 
-Monorepo for learning server-controlled, tool-gated chatbot architecture with Angular, Node.js, and the Gemini API.
+Monorepo for learning server-controlled, tool-gated chatbot architecture with Angular, Node.js, Gemini, and microservices.
 
 > **For AI agents:** read [AGENTS.md](./AGENTS.md) at the start of every session for project context, conventions, and milestone status.
 
@@ -8,9 +8,11 @@ Monorepo for learning server-controlled, tool-gated chatbot architecture with An
 
 | Package | Description |
 |---------|-------------|
-| `client/` | Angular frontend with a minimal chat UI shell |
-| `server/` | Express + TypeScript API (`GET /health`) |
-| `shared/` | Shared TypeScript types used by client and server |
+| `client/` | Angular frontend with chat UI |
+| `server/` | Chat / catalog service (Gemini, tools, products) |
+| `shared/` | Shared TypeScript types and API contracts |
+| `gateway/` | API gateway — public entrance [planned] |
+| `orders-service/` | Orders microservice [planned] |
 
 ## Prerequisites
 
@@ -35,7 +37,7 @@ cp server/.env.example server/.env
 Run the API and Angular dev server in separate terminals:
 
 ```bash
-npm run dev:server   # http://localhost:3000
+npm run dev:server   # chat service — http://localhost:3000 (will move to :3001 behind gateway)
 npm run dev:client   # http://localhost:4200
 ```
 
@@ -45,12 +47,31 @@ Verify the API:
 curl http://localhost:3000/health
 ```
 
+When the gateway and orders service are added:
+
+```bash
+# npm run dev:gateway   # http://localhost:3000 — public entrance
+# npm run dev:orders    # http://localhost:3002
+```
+
 ## Build
 
 ```bash
 npm run build
 ```
 
-## Architecture (planned)
+## Architecture
 
-Authentication and data access will use a **Tool-Gate** pattern: the chat endpoint accepts both authenticated and unauthenticated requests; authorization is enforced inside individual tool handlers on the server, with the UI escalating to a login form when a tool returns `AUTH_REQUIRED`.
+**Tool-Gate pattern:** the chat endpoint accepts both authenticated and unauthenticated requests; authorization is enforced inside individual tool handlers on the server, with the UI escalating to a login form when a tool returns `AUTH_REQUIRED`.
+
+**Target layout (with microservices):**
+
+```
+Angular → Gateway :3000
+            ├── POST /chat    → Chat service :3001
+            └── GET  /orders  → Orders service :3002
+
+Chat service (order tools) → Orders service :3002  (internal)
+```
+
+See [AGENTS.md](./AGENTS.md) for the full milestone plan and conventions.
