@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from 'express';
-import type { ChatMessage, ChatRequest } from '@chatbot/shared';
+import type { ChatRequest } from '@chatbot/shared';
 import { ChatService } from '../services/chat.service';
-import { asyncHandler } from '../middlewares/async-handler';
+import { asyncHandler } from '@chatbot/server-utils';
 
 const router = Router();
 

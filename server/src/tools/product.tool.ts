@@ -1,7 +1,11 @@
-import { FunctionDeclaration, SchemaType } from "@google/generative-ai";
-import { ProductSearchFilter, ProductService } from "../services/product.service";
-import { ToolDefinition } from "@chatbot/shared";
+import type { FunctionDeclaration } from "@google/generative-ai";
+import type { ToolDefinition,  ProductSearchFilter, Product } from "@chatbot/shared";
+
+import { SchemaType } from "@google/generative-ai";
+
 import { createTool } from "./create-tool";
+import { catalogApi } from "../clients/clients";
+import { logger } from "../services/log.service";
 
 const DOC: string = `Search store products by params. Returns id, name, description, categoryId, and price.
     Never call with no filters and not by calling once per category to list all products - overkill, and function will throw error.
@@ -45,5 +49,13 @@ const searchProductsDeclaration: FunctionDeclaration = {
 
 export const searchProducts: ToolDefinition = createTool(
     searchProductsDeclaration,
-    async (filter: ProductSearchFilter) => ProductService.searchProducts(filter),
+    async (filter: ProductSearchFilter) => {
+        try {
+            const res: Product[] = await catalogApi.searchProducts(filter);
+            return res;
+        } catch (e) {
+            logger.error(e);
+            throw e;
+        };
+    },
 );

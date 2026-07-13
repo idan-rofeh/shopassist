@@ -5,7 +5,9 @@
     "client",
     "server",
     "shared",
-    "gateway"
+    "gateway",
+    "catalog-service",
+    "server-utils"
   ],
   "scripts": {
     "build": "npm run build --workspace shared && npm run build --workspace server && npm run build --workspace client",

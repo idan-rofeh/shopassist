@@ -1,14 +1,7 @@
-import type { Product } from '@chatbot/shared';
-import { PRODUCTS } from '../data/products';
+import type { Product, ProductSearchFilter } from '@chatbot/shared';
+import { PRODUCTS } from '../../data/products';
 
-export interface ProductSearchFilter {
-  name?: string;
-  categoryId?: string;
-  minPrice?: number;
-  maxPrice?: number;
-};
-
-export class ProductService {
+export class ProductsService {
   public static async searchProducts(filter: ProductSearchFilter = {}): Promise<Product[]> {
     const name = filter.name?.trim().toLowerCase();
     const categoryId = filter.categoryId?.trim().toLowerCase();

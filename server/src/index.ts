@@ -1,11 +1,11 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
-import express, { type Request, type Response } from 'express';
-import type { ApiResponse, HealthCheckResponse } from '@chatbot/shared';
-import ChatRoutes from './routes/chat.routes';
-import { errorHandler } from './middlewares/error-handler';
+import 'dotenv/config';
 
-dotenv.config();
+import express, { type Request, type Response } from 'express';
+import ChatRoutes from './routes/chat.routes';
+import { errorHandler } from '@chatbot/server-utils';
+
+import type { ApiResponse, HealthCheckResponse } from '@chatbot/shared';
 
 const app = express();
 

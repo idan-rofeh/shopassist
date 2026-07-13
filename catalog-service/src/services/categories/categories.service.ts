@@ -1,13 +1,8 @@
-import { Category } from "@chatbot/shared";
-import { CATEGORIES } from "../data/categories";
+import type { Category, CategorySearchFilter } from "@chatbot/shared";
+import { CATEGORIES } from "../../data/categories";
 
-export interface CategorySearchFilter {
-    id?: string;
-    name?: string;
-};
-
-export class CategoryService {
-    public static searchCategories(filter: CategorySearchFilter = {}): Category[] {
+export class CategoriesService {
+    public static async searchCategories(filter: CategorySearchFilter = {}): Promise<Category[]> {
         return CATEGORIES.filter((c: Category) => {
             const filterName = filter.name?.trim().toLocaleLowerCase();
             const categoryName = c.name?.trim().toLocaleLowerCase();

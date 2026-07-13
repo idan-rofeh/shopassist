@@ -4,15 +4,16 @@
   "private": true,
   "main": "./dist/index.js",
   "scripts": {
-    "prebuild": "npm run build --workspace @chatbot/shared",
+    "prebuild": "npm run build --workspace @chatbot/shared && npm run build --workspace @chatbot/server-utils",
     "build": "tsc -p tsconfig.json",
-    "predev": "npm run build --workspace @chatbot/shared",
+    "predev": "npm run build --workspace @chatbot/shared && npm run build --workspace @chatbot/server-utils",
     "dev": "tsx watch src/index.ts",
-    "prestart": "npm run build --workspace @chatbot/shared",
+    "prestart": "npm run build --workspace @chatbot/shared && npm run build --workspace @chatbot/server-utils",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@chatbot/server-utils": "^0.0.1",
     "@chatbot/shared": "*",
     "@google/generative-ai": "^0.24.1",
     "cors": "^2.8.5",

@@ -1,7 +1,9 @@
 import { FunctionDeclaration, SchemaType } from "@google/generative-ai";
-import { CategorySearchFilter, CategoryService } from "../services/category.service";
-import { ToolDefinition } from "@chatbot/shared"
+import { ToolDefinition, CategorySearchFilter, Category } from "@chatbot/shared"
+
 import { createTool } from "./create-tool";
+import { catalogApi } from '../clients/clients';
+import { logger } from "../services/log.service";
 
 const DOC = `Search store categories by id or name. Returns id, name, and description.
     Call with no filters to list all categories.
@@ -52,5 +54,13 @@ const searchCategoriesDeclaration: FunctionDeclaration = {
 
 export const searchCategories: ToolDefinition = createTool(
     searchCategoriesDeclaration,
-    async (filter: CategorySearchFilter) => CategoryService.searchCategories(filter),
+    async (filter: CategorySearchFilter) => {
+        try {
+            const res: Category[] = await catalogApi.searchCategories(filter);
+            return res;
+        } catch (e) {
+            logger.error(e);
+            throw e;
+        };
+    },
 );
