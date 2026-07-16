@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "client",
-    "server",
+    "chat-service",
     "shared",
     "gateway",
     "catalog-service",
@@ -11,16 +11,16 @@
     "orders-service"
   ],
   "scripts": {
-    "build": "npm run build --workspace shared && npm run build --workspace @chatbot/server-utils && npm run build --workspace server && npm run build --workspace client",
+    "build": "npm run build --workspace shared && npm run build --workspace @chatbot/server-utils && npm run build --workspace chat-service && npm run build --workspace client",
     "build:shared": "npm run build --workspace shared",
     "build:server-utils": "npm run build --workspace @chatbot/server-utils",
-    "build:server": "npm run build --workspace server",
+    "build:chat-service": "npm run build --workspace chat-service",
     "build:client": "npm run build --workspace client",
-    "dev:server": "npm run dev --workspace server",
+    "dev:chat-service": "npm run dev --workspace chat-service",
     "dev:gateway": "npm run dev --workspace gateway",
     "dev:catalog": "npm run dev --workspace @chatbot/catalog",
     "dev:client": "npm run start --workspace client",
-    "start:server": "npm run start --workspace server"
+    "start:chat-service": "npm run start --workspace chat-service"
   },
   "engines": {
     "node": ">=20"
