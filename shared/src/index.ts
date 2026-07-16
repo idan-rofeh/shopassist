@@ -13,3 +13,5 @@ export * from './types/chat';
 export * from './types/category';
 export * from './types/product';
 export * from './types/tool-definition';
+export * from './types/order';
+export * from './types/order-item';

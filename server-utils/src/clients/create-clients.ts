@@ -1,14 +1,16 @@
 import { ServiceName } from '../enums';
 import { HttpClient, Logger } from '../services';
-import type { BaseClient } from './base.client';
 import { CatalogClient } from './catalog.client';
+import { OrdersClient } from './orders.client';
 
 const CLIENTS = [
     CatalogClient,
+    OrdersClient,
 ];
 
 export type ServiceClients = {
     [ServiceName.CATALOG]?: CatalogClient;
+    [ServiceName.ORDERS]?: OrdersClient;
 };
 
 export function createClients(origin: ServiceName): ServiceClients {
@@ -22,7 +24,7 @@ export function createClients(origin: ServiceName): ServiceClients {
       continue;
     };
 
-    clients[Client.serviceName] = new Client(http);
+    (clients as Record<string, unknown>)[Client.serviceName] = new Client(http);
   };
 
   return clients;

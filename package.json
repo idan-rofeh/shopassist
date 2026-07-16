@@ -7,7 +7,8 @@
     "shared",
     "gateway",
     "catalog-service",
-    "server-utils"
+    "server-utils",
+    "orders-service"
   ],
   "scripts": {
     "build": "npm run build --workspace shared && npm run build --workspace @chatbot/server-utils && npm run build --workspace server && npm run build --workspace client",
