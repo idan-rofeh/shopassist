@@ -1,9 +1,9 @@
 import { FunctionDeclaration, SchemaType } from "@google/generative-ai";
 import { ToolDefinition, CategorySearchFilter, Category } from "@chatbot/shared"
 
-import { createTool } from "./create-tool";
-import { catalogApi } from '../clients/clients';
-import { logger } from "../services/log.service";
+import { createTool } from "../create-tool";
+import { catalogApi } from '../../clients/clients';
+import { logger } from "../../services/log.service";
 
 const DOC = `Search store categories by id or name. Returns id, name, and description.
     Call with no filters to list all categories.

@@ -3,9 +3,9 @@ import type { ToolDefinition,  ProductSearchFilter, Product } from "@chatbot/sha
 
 import { SchemaType } from "@google/generative-ai";
 
-import { createTool } from "./create-tool";
-import { catalogApi, ordersApi } from "../clients/clients";
-import { logger } from "../services/log.service";
+import { createTool } from "../create-tool";
+import { catalogApi } from "../../clients/clients";
+import { logger } from "../../services/log.service";
 
 const DOC: string = `Search store products by params. Returns id, name, description, categoryId, and price.
     Never call with no filters and not by calling once per category to list all products - overkill, and function will throw error.

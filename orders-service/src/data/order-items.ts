@@ -3,8 +3,8 @@ import type { OrderItem } from '@chatbot/shared';
 export const ORDER_ITEMS: OrderItem[] = [
   // Order 1 — user 1
   {
-    id: 1,
-    orderId: 1,
+    id: 'item-001',
+    orderId: 'ord-001',
     productId: 'prod-001', // Aurora Laptop 14
     quantity: 1,
     unitPrice: 899,
@@ -12,8 +12,8 @@ export const ORDER_ITEMS: OrderItem[] = [
     updatedAt: null,
   },
   {
-    id: 2,
-    orderId: 1,
+    id: 'item-002',
+    orderId: 'ord-001',
     productId: 'prod-006', // ComfortFit Wireless Mouse
     quantity: 2,
     unitPrice: 29,
@@ -21,8 +21,8 @@ export const ORDER_ITEMS: OrderItem[] = [
     updatedAt: null,
   },
   {
-    id: 3,
-    orderId: 1,
+    id: 'item-003',
+    orderId: 'ord-001',
     productId: 'prod-007', // MechType Keyboard TKL
     quantity: 1,
     unitPrice: 89,
@@ -31,8 +31,8 @@ export const ORDER_ITEMS: OrderItem[] = [
   },
   // Order 2 — user 1
   {
-    id: 4,
-    orderId: 2,
+    id: 'item-004',
+    orderId: 'ord-002',
     productId: 'prod-008', // StudioSound USB Headset
     quantity: 1,
     unitPrice: 59,
@@ -40,8 +40,8 @@ export const ORDER_ITEMS: OrderItem[] = [
     updatedAt: null,
   },
   {
-    id: 5,
-    orderId: 2,
+    id: 'item-005',
+    orderId: 'ord-002',
     productId: 'prod-010', // TravelShell 15" Sleeve
     quantity: 1,
     unitPrice: 35,
@@ -50,8 +50,8 @@ export const ORDER_ITEMS: OrderItem[] = [
   },
   // Order 3 — user 2
   {
-    id: 6,
-    orderId: 3,
+    id: 'item-006',
+    orderId: 'ord-003',
     productId: 'prod-003', // NovaBook Air
     quantity: 1,
     unitPrice: 749,
@@ -59,8 +59,8 @@ export const ORDER_ITEMS: OrderItem[] = [
     updatedAt: null,
   },
   {
-    id: 7,
-    orderId: 3,
+    id: 'item-007',
+    orderId: 'ord-003',
     productId: 'prod-009', // FlexStand Laptop Riser
     quantity: 1,
     unitPrice: 45,
@@ -69,8 +69,8 @@ export const ORDER_ITEMS: OrderItem[] = [
   },
   // Order 4 — user 2
   {
-    id: 8,
-    orderId: 4,
+    id: 'item-008',
+    orderId: 'ord-004',
     productId: 'prod-005', // PixelLine Chrome 13
     quantity: 1,
     unitPrice: 599,
@@ -78,8 +78,8 @@ export const ORDER_ITEMS: OrderItem[] = [
     updatedAt: null,
   },
   {
-    id: 9,
-    orderId: 4,
+    id: 'item-009',
+    orderId: 'ord-004',
     productId: 'prod-006', // ComfortFit Wireless Mouse
     quantity: 1,
     unitPrice: 29,

@@ -1,11 +1,19 @@
+import { z } from 'zod';
+
 export interface Order {
-    id: number;
-    userId: number;
-    createdAt: Date;
-    updatedAt: Date | null;
+  id: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date | null;
 };
 
-export interface OrderSearchFilter {
-    id?: number;
-    userId?: number;
-};
+export const OrderSearchFilterSchema = z
+  .object({
+    id: z.string().optional(),
+    userId: z.string().optional(),
+  })
+  .refine(data => data.id || data.userId, {
+    message: "Either 'id' or 'user' is required.",
+  });
+
+export type OrderSearchFilter = z.infer<typeof OrderSearchFilterSchema>;

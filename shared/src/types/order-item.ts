@@ -1,14 +1,20 @@
+import { z } from 'zod';
+
 export interface OrderItem {
-    id: number;
-    orderId: number;
+    id: string;
+    orderId: string;
     productId: string;
     quantity: number;
     unitPrice: number;
     createdAt: Date;
     updatedAt: Date | null;
-};
+}
 
-export interface OrderItemSearchFilter {
-    id?: number;
-    orderId?: number;
-};
+export const OrderItemSearchFilterSchema = z.object({
+    id: z.string().optional(),
+    orderId: z.string().optional(),
+}).refine(data => data.id || data.orderId, {
+    message: "Either 'id' or 'user' is required.",
+  });;
+
+export type OrderItemSearchFilter = z.infer<typeof OrderItemSearchFilterSchema>;
