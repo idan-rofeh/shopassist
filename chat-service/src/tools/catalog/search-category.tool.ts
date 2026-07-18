@@ -56,7 +56,7 @@ export const searchCategories: ToolDefinition = createTool(
     searchCategoriesDeclaration,
     async (filter: CategorySearchFilter) => {
         try {
-            const res: Category[] = await catalogApi.searchCategories(filter);
+            const res: Category[] = await catalogApi.categories.search(filter);
             return res;
         } catch (e) {
             logger.error(e);

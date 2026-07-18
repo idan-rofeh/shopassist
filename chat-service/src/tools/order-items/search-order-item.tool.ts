@@ -32,7 +32,7 @@ export const searchOrderItems: ToolDefinition = createTool(
     searchOrderItemsDeclaration,
     async (filter: OrderItemSearchFilter) => {
         try {
-            const res: OrderItem[] = await ordersApi.findOrderItems(filter);
+            const res: OrderItem[] = await ordersApi.orderItems.search(filter);
             return res;
         } catch (e) {
             logger.error(e);

@@ -51,7 +51,7 @@ export const searchProducts: ToolDefinition = createTool(
     searchProductsDeclaration,
     async (filter: ProductSearchFilter) => {
         try {
-            const res: Product[] = await catalogApi.searchProducts(filter);
+            const res: Product[] = await catalogApi.products.search(filter);
             return res;
         } catch (e) {
             logger.error(e);

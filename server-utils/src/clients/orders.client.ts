@@ -13,7 +13,6 @@ export class OrdersClient extends BaseClient {
   static readonly serviceName = ServiceName.ORDERS;
   static readonly envKey = 'ORDERS_SERVICE_URL';
 
-  // available services for caller
   static readonly allowedList: ServiceName[] = [
     ServiceName.CHAT,
   ];
@@ -26,21 +25,23 @@ export class OrdersClient extends BaseClient {
     );
   }
 
-  async findOrders(filter: OrderSearchFilter = {}): Promise<Order[]> {
-    return this.http.send<Order[]>({
-      url: `${this.baseUrl}/orders`,
-      method: 'GET',
-      params: filter as Record<string, unknown>,
-    });
-  }
+  readonly orders = {
+    search: async (filter: OrderSearchFilter = {}): Promise<Order[]> => {
+      return this.http.send<Order[]>({
+        url: `${this.baseUrl}/orders`,
+        method: 'GET',
+        params: filter as Record<string, unknown>,
+      });
+    },
+  };
 
-  async findOrderItems(
-    filter: OrderItemSearchFilter = {},
-  ): Promise<OrderItem[]> {
-    return this.http.send<OrderItem[]>({
-      url: `${this.baseUrl}/order-items`,
-      method: 'GET',
-      params: filter as Record<string, unknown>,
-    });
-  }
+  readonly orderItems = {
+    search: async (filter: OrderItemSearchFilter = {}): Promise<OrderItem[]> => {
+      return this.http.send<OrderItem[]>({
+        url: `${this.baseUrl}/order-items`,
+        method: 'GET',
+        params: filter as Record<string, unknown>,
+      });
+    },
+  };
 }
